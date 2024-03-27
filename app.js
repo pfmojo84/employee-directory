@@ -58,3 +58,74 @@ function displayMenu() {
       })
 }
 
+async function viewDepartments() {
+    try {
+      const departments = await db.getAllDepartments();
+      console.table(departments);
+    } catch (error) {
+      console.error('Error fetching departments:', error);
+    }
+    displayMenu(); 
+}
+
+async function viewRoles() {
+    try {
+      const roles = await db.getAllRoles();
+      console.table(roles);
+    } catch (error) {
+      console.error('Error fetching roles:', error);
+    }
+    displayMenu(); 
+}
+
+async function viewEmployees() {
+    try {
+      const employees = await db.getAllEmployees();
+      console.table(employees);
+    } catch (error) {
+      console.error('Error fetching employees:', error);
+    }
+    displayMenu(); 
+}
+
+async function addDept() {
+    try {
+      const newDept = await db.addDepatment();
+      console.table(newDept);
+    } catch (error) {
+      console.error('Error adding a new department', error);
+    }
+    displayMenu(); 
+}
+
+async function addRole() {
+    try {
+      const newRole = await db.addRole();
+      console.table(newRole);
+    } catch (error) {
+      console.error('Error adding a new role', error);
+    }
+    displayMenu(); 
+}
+
+async function addEmployee() {
+    try {
+      const newEmployee = await db.addEmployee();
+      console.table(newEmployee);
+    } catch (error) {
+      console.error('Error adding a new employee', error);
+    }
+    displayMenu(); 
+}
+
+async function updateEmployee() {
+    try {
+      const updateEmp = await db.updateEmployee();
+      console.table(updateEmp);
+    } catch (error) {
+      console.error('Error adding a new employee', error);
+    }
+    displayMenu(); 
+}
+
+displayMenu();
