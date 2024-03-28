@@ -25,7 +25,8 @@ function displayMenu() {
             message: 'Choose an Option:',
             choices: menuOptions
         }
-      ])
+      ]) 
+      //switch statement calls function from db.js based on user selection 
       .then((answers) => {
         switch (answers.choice) {
             case 'View All Departments':
@@ -58,7 +59,7 @@ function displayMenu() {
         }
       })
 }
-
+//display all deparments in table format - async and await handles asynchronous fetch of departments from database 
 async function viewDepartments() {
     try {
       const departments = await db.getAllDepartments();
@@ -66,6 +67,7 @@ async function viewDepartments() {
     } catch (error) {
       console.error('Error fetching departments:', error);
     }
+    //display main menu again after departments are fetched and logged as a table
     displayMenu(); 
 }
 
@@ -81,7 +83,9 @@ async function viewRoles() {
 
 async function viewEmployees() {
   try {
+      //fetch all employees with details from the database
       const employees = await db.getAllEmployeesWithDetails();
+      //formats the fetched employees data for display
       const formattedEmployees = employees.map(employee => ({
           ID: employee.id,
           First_Name: employee.first_name,
@@ -91,6 +95,7 @@ async function viewEmployees() {
           Salary: employee.salary,
           Manager: employee.manager
       }));
+      //display formatted employees in table
       console.table(formattedEmployees);
   } catch (error) {
       console.error('Error fetching employees:', error);
@@ -99,6 +104,7 @@ async function viewEmployees() {
 }
 
 async function addDepartment() {
+  //prompt user to enter new department name
   const answer = await inquirer.prompt([
       {
           type: 'input',
@@ -108,6 +114,7 @@ async function addDepartment() {
   ]);
 
   try {
+  //add the department to the department table in database based on user input  
     const newDept = await db.addDepartment(answer.name);
     console.log('Department added successfully:', newDept);
   } catch (error) {
@@ -117,6 +124,7 @@ async function addDepartment() {
 }
 
 async function addRole() {
+  //prompt user to enter details for new role
   const answer = await inquirer.prompt([
       {
           type: 'input',
@@ -136,6 +144,7 @@ async function addRole() {
   ]);
 
   try {
+    //add new role to corresponding table in employees_db
     const newRole = await db.addRole(answer.title, answer.salary, answer.department_id);
     console.log('Role added successfully:', newRole);
   } catch (error) {
@@ -145,6 +154,7 @@ async function addRole() {
 }
 
 async function addEmployee() {
+  //prompt user to input details for new employee
   const answer = await inquirer.prompt([
       {
           type: 'input',
@@ -169,6 +179,7 @@ async function addEmployee() {
   ]);
 
   try {
+    //update employee table with new employee info in employees_db
     const newEmployee = await db.addEmployee(answer.first_name, answer.last_name, answer.role_id, answer.manager_id);
     console.log('Employee added successfully:', newEmployee);
   } catch (error) {
@@ -178,6 +189,7 @@ async function addEmployee() {
 }
 
 async function updateEmployeeRole() {
+  //prompt user to input updated details for an employees role based on their id number and role id number
   const answer = await inquirer.prompt([
       {
           type: 'input',
@@ -192,6 +204,7 @@ async function updateEmployeeRole() {
   ]);
 
   try {
+    //change the corresponding information within the employee table in employees_db
     const updatedEmployee = await db.updateEmployeeRole(answer.employee_id, answer.role_id);
     console.log('Employee role updated successfully:', updatedEmployee);
   } catch (error) {
