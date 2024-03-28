@@ -5,8 +5,8 @@ VALUES ("Finance"),
        ("Engineering"),
        ("Sales");
 
-INSERT INTO role (title, salary, department_id)
-VALUES ("Lead Finance Administrator", 85000, 1),
+INSERT INTO roles (title, salary, department_id)
+VALUES ("Finance Administrator", 85000, 1),
        ("Budget Consultant", 60000, 1),
        ("Senior Legal Counsel", 110000, 2),
        ("Associate Attorney", 80000, 2),
@@ -14,7 +14,7 @@ VALUES ("Lead Finance Administrator", 85000, 1),
        ("Recruitment Coordinator", 45000, 3),
        ("Principal Engineer", 125000, 4),
        ("Associate Engineer", 90000, 4),
-       ("Business Development Specialist", 80000, 5),
+       ("Development Specialist", 80000, 5),
        ("Account Executive", 75000, 5);
 
 
