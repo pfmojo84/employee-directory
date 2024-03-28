@@ -1,5 +1,5 @@
 const inquirer = require ('inquirer');
-const mysql = require ('mysql2');
+const mysql = require ('mysql');
 const { DB } = require('./db/db');
 
 const db = new DB();
@@ -37,7 +37,7 @@ function displayMenu() {
                 viewEmployees();
                 break;
             case 'Add a Department':
-                addDept();
+                addDepartment();
                 break;
             case 'Add a Role':
                 addRole();
@@ -46,7 +46,7 @@ function displayMenu() {
                 addEmployee();
                 break;
             case 'Update an Employee Role':
-                updateEmployee();
+                updateEmployeeRole();
                 break;
             case 'Exit':
                 exitApp();
@@ -88,44 +88,106 @@ async function viewEmployees() {
     displayMenu(); 
 }
 
-async function addDept() {
-    try {
-      const newDept = await db.addDepatment();
-      console.table(newDept);
-    } catch (error) {
-      console.error('Error adding a new department', error);
-    }
-    displayMenu(); 
+async function addDepartment() {
+  const answer = await inquirer.prompt([
+      {
+          type: 'input',
+          name: 'name',
+          message: 'Enter the department name:'
+      }
+  ]);
+
+  try {
+    const newDept = await db.addDepartment(answer.name);
+    console.log('Department added successfully:', newDept);
+  } catch (error) {
+    console.error('Error adding a new department:', error);
+  }
+  displayMenu(); 
 }
 
 async function addRole() {
-    try {
-      const newRole = await db.addRole();
-      console.table(newRole);
-    } catch (error) {
-      console.error('Error adding a new role', error);
-    }
-    displayMenu(); 
+  const answer = await inquirer.prompt([
+      {
+          type: 'input',
+          name: 'title',
+          message: 'Enter the role title:'
+      },
+      {
+          type: 'input',
+          name: 'salary',
+          message: 'Enter the role salary:'
+      },
+      {
+          type: 'input',
+          name: 'department_id',
+          message: 'Enter the department ID:'
+      }
+  ]);
+
+  try {
+    const newRole = await db.addRole(answer.title, answer.salary, answer.department_id);
+    console.log('Role added successfully:', newRole);
+  } catch (error) {
+    console.error('Error adding a new role:', error);
+  }
+  displayMenu(); 
 }
 
 async function addEmployee() {
-    try {
-      const newEmployee = await db.addEmployee();
-      console.table(newEmployee);
-    } catch (error) {
-      console.error('Error adding a new employee', error);
-    }
-    displayMenu(); 
+  const answer = await inquirer.prompt([
+      {
+          type: 'input',
+          name: 'first_name',
+          message: 'Enter the employee first name:'
+      },
+      {
+          type: 'input',
+          name: 'last_name',
+          message: 'Enter the employee last name:'
+      },
+      {
+          type: 'input',
+          name: 'role_id',
+          message: 'Enter the role ID:'
+      },
+      {
+          type: 'input',
+          name: 'manager_id',
+          message: 'Enter the manager ID:'
+      }
+  ]);
+
+  try {
+    const newEmployee = await db.addEmployee(answer.first_name, answer.last_name, answer.role_id, answer.manager_id);
+    console.log('Employee added successfully:', newEmployee);
+  } catch (error) {
+    console.error('Error adding a new employee:', error);
+  }
+  displayMenu(); 
 }
 
-async function updateEmployee() {
-    try {
-      const updateEmp = await db.updateEmployeeRole();
-      console.table(updateEmp);
-    } catch (error) {
-      console.error('Error adding a new employee', error);
-    }
-    displayMenu(); 
+async function updateEmployeeRole() {
+  const answer = await inquirer.prompt([
+      {
+          type: 'input',
+          name: 'employee_id',
+          message: 'Enter the employee ID to update:'
+      },
+      {
+          type: 'input',
+          name: 'role_id',
+          message: 'Enter the new role ID:'
+      }
+  ]);
+
+  try {
+    const updatedEmployee = await db.updateEmployeeRole(answer.employee_id, answer.role_id);
+    console.log('Employee role updated successfully:', updatedEmployee);
+  } catch (error) {
+    console.error('Error updating employee role:', error);
+  }
+  displayMenu(); 
 }
 
 displayMenu();

@@ -5,7 +5,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'Otis2024!',
-  database: 'employee_tracker'
+  database: 'employees_db'
 });
 
 // Define a class for database operations
@@ -31,7 +31,7 @@ class DB {
   // Function to fetch all roles from the database
   getAllRoles() {
     return new Promise((resolve, reject) => {
-      const query = 'SELECT * FROM role';
+      const query = 'SELECT * FROM roles';
       this.connection.query(query, (error, results) => {
         if (error) {
           reject(error);
@@ -73,7 +73,7 @@ class DB {
   // Function to add a role to the database
   addRole(title, salary, department_id) {
     return new Promise((resolve, reject) => {
-      const query = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
+      const query = 'INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)';
       this.connection.query(query, [title, salary, department_id], (error, results) => {
         if (error) {
           reject(error);
