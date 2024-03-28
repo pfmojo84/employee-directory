@@ -190,4 +190,9 @@ async function updateEmployeeRole() {
   displayMenu(); 
 }
 
+function exitApp() {
+  console.log('Exiting the application.');
+  process.exit();
+}
+
 displayMenu();
