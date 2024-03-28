@@ -15,6 +15,7 @@ const menuOptions = [
     'Exit'
 ];
 
+//displayMenu function uses inquirer to prompt users to view tables, add info to tables, or update an employee
 function displayMenu() {
     inquirer
       .prompt([
@@ -79,13 +80,22 @@ async function viewRoles() {
 }
 
 async function viewEmployees() {
-    try {
-      const employees = await db.getAllEmployees();
-      console.table(employees);
-    } catch (error) {
+  try {
+      const employees = await db.getAllEmployeesWithDetails();
+      const formattedEmployees = employees.map(employee => ({
+          ID: employee.id,
+          First_Name: employee.first_name,
+          Last_Name: employee.last_name,
+          Title: employee.title,
+          Department: employee.department,
+          Salary: employee.salary,
+          Manager: employee.manager
+      }));
+      console.table(formattedEmployees);
+  } catch (error) {
       console.error('Error fetching employees:', error);
-    }
-    displayMenu(); 
+  }
+  displayMenu();
 }
 
 async function addDepartment() {

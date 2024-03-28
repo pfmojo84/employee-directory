@@ -42,19 +42,36 @@ class DB {
     });
   }
 
-  // Function to fetch all employees from the database
-  getAllEmployees() {
+  //function to fetch table with all employess and employee details
+  getAllEmployeesWithDetails() {
     return new Promise((resolve, reject) => {
-      const query = 'SELECT * FROM employee';
-      this.connection.query(query, (error, results) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(results);
-        }
-      });
+        const query = `
+            SELECT 
+                employee.id,
+                employee.first_name,
+                employee.last_name,
+                roles.title,
+                department.name AS department,
+                roles.salary,
+                CONCAT(manager.first_name, ' ', manager.last_name) AS manager
+            FROM 
+                employee
+            INNER JOIN 
+                roles ON employee.role_id = roles.id
+            INNER JOIN 
+                department ON roles.department_id = department.id
+            LEFT JOIN 
+                employee AS manager ON employee.manager_id = manager.id
+        `;
+        this.connection.query(query, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
     });
-  }
+}
 
   // Function to add a department to the database
   addDepartment(name) {
