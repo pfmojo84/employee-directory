@@ -36,7 +36,7 @@ function displayMenu() {
             case 'View All Employees':
                 viewEmployees();
                 break;
-            case 'Add a Deparment':
+            case 'Add a Department':
                 addDept();
                 break;
             case 'Add a Role':
@@ -120,7 +120,7 @@ async function addEmployee() {
 
 async function updateEmployee() {
     try {
-      const updateEmp = await db.updateEmployee();
+      const updateEmp = await db.updateEmployeeRole();
       console.table(updateEmp);
     } catch (error) {
       console.error('Error adding a new employee', error);
